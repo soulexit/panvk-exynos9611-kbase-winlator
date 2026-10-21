@@ -249,6 +249,10 @@ docs/
   REPORT-TEMPLATE.md
 ```
 
+## Development assistance
+
+Made with help from **DeepSeek** and **OpenCode**.
+
 ## Credits and license
 
 Driver: Mesa PanVK + [`JimVulkan/mali-panvk`](https://github.com/JimVulkan/mali-panvk) (MIT).
