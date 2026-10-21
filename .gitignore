@@ -1,0 +1,8 @@
+build/
+dist/
+vendor/
+*.so
+*.zip
+*.sha256
+*.tar.gz
+*.log
