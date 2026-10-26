@@ -46,7 +46,7 @@ def main():
             "author": "panvk-exynos9611",
             "packageVersion": version,
             "vendor": "Mesa",
-            "driverVersion": "Mesa 26.3.0-devel / PanVK kbase JM",
+            "driverVersion": "Mesa 27.0.0-devel / PanVK kbase JM (driver v0.02)",
             "minApi": 31,
             "libraryName": "libvulkan_panfrost.so",
         }

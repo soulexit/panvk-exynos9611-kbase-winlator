@@ -15,7 +15,27 @@
 
 | Package | Date | Driver listed | Container starts | vkcube | D3D9 game | D3D11 game | Notes |
 |---|---|---|---|---|---|---|---|
+| v0.02 | 2026-10-26 | **PASS** (direct install) | **PASS** | **PASS** (compositor swapchain) | **PASS** — NFS MW intro, title, attract video at 50–60 FPS, no GPU fault | untested (DmC exits in Wine before DXVK) | driver v0.02; in-race gameplay not verified |
 | v0.01 | 2026-10-21 | **PASS** (direct install) | **PASS** | **PASS** (compositor swapchain) | inconclusive | pending | driver loaded; NFS exited after ~13 s |
+
+## v0.02 details
+
+```text
+Date:              2026-10-26
+Package:           panvk-exynos9611-winlator-v0.02.zip
+Winlator version:  4.1 (com.winlator.cmod)
+Container:         container 1, FEXCore, DXVK-Sarek 1.11.0 (D3D9), 1280x720
+Driver selected:   PanVK-Exynos9611-v0.02 (Wrapper(Mali-G72 MC3), Vulkan 1.3.363)
+Result:            NFS Most Wanted Black Edition: intro video, logos, title screen and
+                   attract video render correctly
+FPS:               50-60 (Winlator HUD)
+Corruption:        none seen
+Logs:              DXVK log written to D:\dxvk-logs; dmesg: no GPU fault
+```
+
+The game was started with `XServerDisplayActivity` and a `.desktop` shortcut. Taps sent with adb
+did not register as mouse clicks, so the title's "CLICK to continue" was not passed and in-race
+rendering is not verified.
 
 ## v0.01 details
 

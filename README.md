@@ -15,7 +15,7 @@ kernel, no `/dev/dri`, no root required to use it.
 | **Kernel / kbase** | Linux 4.14.364 / Arm DDK `r38p1-01bet0` |
 | **Winlator tested** | `com.winlator.cmod` **4.1** |
 | **Driver base** | [`JimVulkan/mali-panvk`](https://github.com/JimVulkan/mali-panvk) `fb3b49d`, Mesa 26.3.0-devel |
-| **Current build** | **v0.01 — debug, expect crashes** |
+| **Current build** | **v0.02 — debug, expect crashes** |
 
 > [!WARNING]
 > Experimental driver. It can hang the GPU, crash the container, or produce corrupt output. Keep the
@@ -28,7 +28,7 @@ This is a **packaging repository**, not a second driver fork. It takes the pinne
 produces the zip layout Winlator's AdrenoTools importer expects:
 
 ```text
-panvk-exynos9611-winlator-v0.01.zip
+panvk-exynos9611-winlator-v0.02.zip
 ├── meta.json
 ├── libvulkan_panfrost.so
 ├── NOTICE.txt
@@ -56,7 +56,18 @@ Most Wanted), not modern D3D12 titles.
 
 | Build | Date | Winlator | Driver selected | DXVK test | FPS / result | Notes |
 |---|---|---|---|---|---|---|
+| v0.02 | 2026-10-26 | 4.1 (`com.winlator.cmod`) | **PASS** | **D3D9 PASS** — NFS Most Wanted intro, title, attract video | 50–60 FPS, 0 GPU faults | driver v0.02 (Mesa 27.0-devel + fixes); in-race not verified |
 | v0.01 | 2026-10-21 | 4.1 (`com.winlator.cmod`) | **PASS** | swapchain **PASS**, game pending | — | driver loaded; NFS exited after ~13 s |
+
+### v0.02 validation
+
+- Package unpacked to `.../contents/adrenotools/PanVK-Exynos9611-v0.02/` and selected in
+  container 1 (FEXCore, DXVK-Sarek 1.11.0, 1280×720).
+- **Need for Speed: Most Wanted Black Edition** (D3D9): the intro video, EA/NFS logos, title
+  screen ("CLICK to continue") and attract video render correctly at **50–60 FPS** on
+  `Wrapper(Mali-G72 MC3)`, with no GPU fault in `dmesg`. v0.01 exited after ~13 s on the same game.
+- In-race gameplay is not verified: menu clicks sent from adb did not register.
+- DmC: Devil May Cry (D3D11) exits inside Wine before DXVK starts (no DXVK log); D3D11 is untested.
 
 ### v0.01 validation
 
@@ -94,7 +105,7 @@ been selected in Winlator is not "working".
 
 ### Option A — import the zip in Winlator (no root, recommended)
 
-1. Download `panvk-exynos9611-winlator-v0.01.zip` from
+1. Download `panvk-exynos9611-winlator-v0.02.zip` from
    [Releases](https://github.com/soulexit/panvk-exynos9611-kbase-winlator/releases).
 2. Copy it to the phone (Downloads is fine).
 3. Open **Winlator → Contents → AdrenoTools** (the driver manager).
@@ -124,7 +135,7 @@ Winlator's data directory.
 Requires a working `su` for the shell. The script copies the unpacked driver to:
 
 ```text
-/data/data/com.winlator.cmod/files/contents/adrenotools/PanVK-Exynos9611-v0.01/
+/data/data/com.winlator.cmod/files/contents/adrenotools/PanVK-Exynos9611-v0.02/
 ```
 
 Force-stop Winlator before and after. Use this only when the in-app importer is unavailable; the
@@ -168,7 +179,7 @@ packages it with this repository's `meta.json`. Use it when testing a patch that
 ./scripts/package.sh --so /path/to/libvulkan_panfrost.so
 ```
 
-Output: `dist/panvk-exynos9611-winlator-v0.01.zip` plus a SHA-256 file.
+Output: `dist/panvk-exynos9611-winlator-v0.02.zip` plus a SHA-256 file.
 
 ## Test procedure
 
@@ -190,8 +201,8 @@ Output: `dist/panvk-exynos9611-winlator-v0.01.zip` plus a SHA-256 file.
 
 - **Mali-G72 is Mesa v6 Bifrost**, the least-tested Bifrost path. The base tree validated G72 on a
   Galaxy Tab S6 Lite (same SoC family); the A51's Android 16 + kbase r38 is a new combination.
-- **No native BCn textures.** Winlator/DXVK may decode BC formats in its wrapper; native BC is not
-  implemented by this driver.
+- **BCn is emulated by the driver** (v0.02+). If textures look wrong, set the container's BCn
+  emulation to the wrapper's, or put `PANVK_NO_BC_EMU=1` in `panvk.env` next to the driver.
 - **No D3D12 / vkd3d-proton.** The required Vulkan features are not there yet.
 - **GS/tessellation/XFB are compute-emulated.** On a 3-core G72 this is slow; expect D3D9 and light
   D3D11 only.
