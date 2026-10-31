@@ -1,5 +1,12 @@
 # PanVK for Winlator — Exynos 9611 / Mali-G72 MP3
 
+> [!IMPORTANT]
+> **This repository is archived.** The driver for Winlator, Eden, ARMSX2 and Termux now lives in
+> one repository, **[soulexit/panvk-exynos9611](https://github.com/soulexit/panvk-exynos9611)**,
+> which continues this one's history and publishes one zip per release (from 0.05). Releases here
+> stay downloadable.
+
+
 **AdrenoTools-style Vulkan driver packages** for running
 [PanVK](https://docs.mesa3d.org/drivers/panfrost.html) inside **Winlator** on the
 **Samsung Galaxy A51 (SM-A515F)** and other **Exynos 9611 + Mali-G72 MP3** phones.
